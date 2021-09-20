@@ -1,0 +1,11 @@
+## TODO
+- Seek cmd
+- Repeat fix
+- Repeat track segment
+- Previous track
+- Delete same tracks in queue
+- Spotify support, search support
+- Add discord buttons support
+- Add soundcloud search support
+- Lyrics cmd fix
+- 

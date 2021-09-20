@@ -1,0 +1,27 @@
+<!--edited by d1m0s23-->
+<configuration>
+    <property name="LogDir" value="logs" />
+    <appender name="Simple" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Pattern -->
+            <pattern>
+                %nopex[%d{HH:mm:ss}] [%level] [%logger{0}]: %msg%n%ex
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="File" class="ch.qos.logback.core.FileAppender">
+        <file>${LogDir}/latest.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>
+                %nopex[%d{HH:mm:ss}] [%level] [%logger{0}]: %msg%n%ex
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="Simple"/>
+        <appender-ref ref="File" />
+    </root>
+
+</configuration>
