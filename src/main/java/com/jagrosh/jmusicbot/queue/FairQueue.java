@@ -15,6 +15,8 @@
  */
 package com.jagrosh.jmusicbot.queue;
 
+import com.jagrosh.jmusicbot.audio.QueuedTrack;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -59,10 +61,19 @@ public class FairQueue<T extends Queueable> {
     {
         return list.size();
     }
-    
+
     public T pull()
     {
         return list.remove(0);
+    }
+
+    public void addAndDeleteFirst(int index, T item)
+    {
+        if(index >= list.size())
+            list.add(item);
+        else
+            list.add(index, item);
+        list.remove(0);
     }
     
     public boolean isEmpty()
@@ -80,9 +91,9 @@ public class FairQueue<T extends Queueable> {
         return list.get(index);
     }
     
-    public T remove(int index)
+    public void remove(int index)
     {
-        return list.remove(index);
+        list.remove(index);
     }
     
     public int removeAll(long identifier)
@@ -98,7 +109,11 @@ public class FairQueue<T extends Queueable> {
         }
         return count;
     }
-    
+
+    public void getAllById(long identifier) {
+
+    }
+
     public void clear()
     {
         list.clear();

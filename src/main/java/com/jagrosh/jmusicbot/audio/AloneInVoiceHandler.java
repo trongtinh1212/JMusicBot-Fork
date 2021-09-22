@@ -20,10 +20,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,7 +42,7 @@ public class AloneInVoiceHandler
     {
         aloneTimeUntilStop = bot.getConfig().getAloneTimeUntilStop();
         if(aloneTimeUntilStop > 0)
-            bot.getThreadpool().scheduleWithFixedDelay(() -> check(), 0, 5, TimeUnit.SECONDS);
+            bot.getThreadpool().scheduleWithFixedDelay(this::check, 0, 5, TimeUnit.SECONDS);
     }
     
     private void check()
@@ -92,7 +89,7 @@ public class AloneInVoiceHandler
         if(guild.getAudioManager().getConnectedChannel() == null) return false;
         return guild.getAudioManager().getConnectedChannel().getMembers().stream()
                 .noneMatch(x ->
-                        !x.getVoiceState().isDeafened()
+                        !Objects.requireNonNull(x.getVoiceState()).isDeafened()
                         && !x.getUser().isBot());
     }
 }

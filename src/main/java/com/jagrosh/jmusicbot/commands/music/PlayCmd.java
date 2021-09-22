@@ -16,6 +16,7 @@
 package com.jagrosh.jmusicbot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException.Severity;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
@@ -30,8 +31,13 @@ import com.jagrosh.jmusicbot.commands.DJCommand;
 import com.jagrosh.jmusicbot.commands.MusicCommand;
 import com.jagrosh.jmusicbot.playlist.PlaylistLoader.Playlist;
 import com.jagrosh.jmusicbot.utils.FormatUtil;
+
+import java.awt.*;
 import java.util.concurrent.TimeUnit;
+
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import org.slf4j.Logger;
@@ -65,6 +71,7 @@ public class PlayCmd extends MusicCommand
     @Override
     public void doCommand(CommandEvent event) 
     {
+
         if(event.getArgs().isEmpty() && event.getMessage().getAttachments().isEmpty())
         {
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
@@ -115,11 +122,22 @@ public class PlayCmd extends MusicCommand
                 return;
             }
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            EmbedBuilder mb = new EmbedBuilder();
+            mb.setAuthor(track.getInfo().author);
+            mb.setTitle(track.getInfo().title, track.getInfo().uri);
+            mb.setColor(Color.red);
+            if(track instanceof YoutubeAudioTrack) mb.setImage("https://img.youtube.com/vi/"+track.getIdentifier()+"/mqdefault.jpg");
+
             int pos = handler.addTrack(new QueuedTrack(track, event.getAuthor()))+1;
             String addMsg = FormatUtil.filter(event.getClient().getSuccess()+" Added **"+track.getInfo().title
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0?"to begin playing":" to the queue at position "+pos));
             if(playlist==null || !event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_ADD_REACTION))
-                m.editMessage(addMsg).queue();
+                try {
+                    m.editMessage(event.getClient().getSuccess() + "Loaded track " + "**" + track.getInfo().title + "**").queue();
+                    m.editMessageEmbeds(mb.build()).queue();
+                } catch (Exception e) {
+                      e.printStackTrace();
+                }
             else
             {
                 new ButtonMenu.Builder()
