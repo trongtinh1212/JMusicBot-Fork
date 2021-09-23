@@ -18,6 +18,7 @@ package com.jagrosh.jmusicbot.commands.dj;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.commands.DJCommand;
+import com.jagrosh.jmusicbot.settings.RepeatMode;
 import com.jagrosh.jmusicbot.settings.Settings;
 
 /**
@@ -43,19 +44,19 @@ public class RepeatCmd extends DJCommand
         Settings settings = event.getClient().getSettingsFor(event.getGuild());
         switch (event.getArgs()) {
             case "track":
-                settings.setRepeatMode(event.getArgs());
+                settings.setRepeatMode(RepeatMode.TRACK);
                 event.replySuccess("Repeat mod is now **track**");
                     break;
             case "queue":
-                settings.setRepeatMode(event.getArgs());
+                settings.setRepeatMode(RepeatMode.QUEUE);
                 event.replySuccess("Repeat mod is now **queue**");
                     break;
             case "off":
-                settings.setRepeatMode(event.getArgs());
+                settings.setRepeatMode(RepeatMode.OFF);
                 event.replySuccess("Repeat mod is now **off**");
                     break;
             default:
-                event.replySuccess("Now mode is: " + settings.getRepeatMode());
+                event.replySuccess("Now mode is: " + "**" + settings.getRepeatMode().getName() + "**" );
         }
     }
 

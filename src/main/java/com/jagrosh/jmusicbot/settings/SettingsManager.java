@@ -47,7 +47,7 @@ public class SettingsManager implements GuildSettingsManager
                         o.has("dj_role_id")      ? o.getString("dj_role_id")      : null,
                         o.has("volume")          ? o.getInt("volume")             : 100,
                         o.has("default_playlist")? o.getString("default_playlist"): null,
-                        o.has("repeat")          ? o.getString("repeat")         : null,
+                        o.has("repeat")          ? o.getEnum(RepeatMode.class, "repeat") : RepeatMode.OFF,
                         o.has("prefix")          ? o.getString("prefix")          : null));
             });
         } catch(IOException | JSONException e) {
@@ -80,7 +80,7 @@ public class SettingsManager implements GuildSettingsManager
     protected void writeSettings()
     {
         JSONObject obj = new JSONObject();
-        settings.keySet().stream().forEach(key -> {
+        settings.keySet().forEach(key -> {
             JSONObject o = new JSONObject();
             Settings s = settings.get(key);
             if(s.textId!=0)
