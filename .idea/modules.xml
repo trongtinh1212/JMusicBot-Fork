@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/JMusicBot-Fork.iml" filepath="$PROJECT_DIR$/.idea/JMusicBot-Fork.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JMusicBot.iml" filepath="$PROJECT_DIR$/JMusicBot.iml" />
     </modules>
   </component>
 </project>

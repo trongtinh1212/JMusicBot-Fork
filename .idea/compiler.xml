@@ -9,5 +9,8 @@
         <module name="JMusicBot" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="JMusicBot" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
