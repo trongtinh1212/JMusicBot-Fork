@@ -109,6 +109,7 @@ public class JMusicBot
                         new SearchCmd(bot),
                         new ShuffleCmd(bot),
                         new SkipCmd(bot),
+                        new TestCmd(),
 
                         new ForceRemoveCmd(bot),
                         new ForceskipCmd(bot),
