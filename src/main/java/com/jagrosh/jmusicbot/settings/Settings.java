@@ -18,6 +18,10 @@ package com.jagrosh.jmusicbot.settings;
 import com.jagrosh.jdautilities.command.GuildSettingsProvider;
 import java.util.Collection;
 import java.util.Collections;
+
+import com.jagrosh.jmusicbot.Bot;
+import com.jagrosh.jmusicbot.lang.LangName;
+import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -37,8 +41,9 @@ public class Settings implements GuildSettingsProvider
     private String defaultPlaylist;
     private RepeatMode repeatMode;
     private String prefix;
-    private String previous;
-    
+    private Bot bot;
+    private LangName langName;
+
     public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
@@ -72,7 +77,7 @@ public class Settings implements GuildSettingsProvider
         this.prefix = prefix;
     }
     
-    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix, LangName langName)
     {
         this.manager = manager;
         this.textId = textId;
@@ -82,6 +87,7 @@ public class Settings implements GuildSettingsProvider
         this.defaultPlaylist = defaultPlaylist;
         this.repeatMode = repeatMode;
         this.prefix = prefix;
+        this.langName = langName;
     }
     
     // Getters
@@ -94,7 +100,11 @@ public class Settings implements GuildSettingsProvider
     {
         return guild == null ? null : guild.getVoiceChannelById(voiceId);
     }
-    
+
+    public LangName getGuildLang() {
+        return langName;
+    }
+
     public Role getRole(Guild guild)
     {
         return guild == null ? null : guild.getRoleById(roleId);
@@ -109,7 +119,7 @@ public class Settings implements GuildSettingsProvider
     {
         return defaultPlaylist;
     }
-    
+
     public RepeatMode getRepeatMode()
     {
         return repeatMode;
@@ -119,7 +129,7 @@ public class Settings implements GuildSettingsProvider
     {
         return prefix;
     }
-    
+
     @Override
     public Collection<String> getPrefixes()
     {

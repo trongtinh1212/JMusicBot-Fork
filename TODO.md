@@ -1,11 +1,14 @@
 ## TODO
-- Seek cmd
+- ~~Seek cmd~~
 - Repeat fix
 - Repeat track segment
 - Previous track
 - Delete same tracks in queue
-- Spotify support, search support
-- Add discord buttons support
-- Add soundcloud search support
+- Spotify, yandex music, yandex radio 
+- ~~Add soundcloud search support~~
 - Lyrics cmd fix
-- 
+- ~~Disconnect cmd~~
+- Join cmd
+- Remove range cmd
+- Save personal queue
+- Add ru-eng-custom lang support

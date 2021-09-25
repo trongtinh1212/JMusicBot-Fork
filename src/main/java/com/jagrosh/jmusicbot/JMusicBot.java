@@ -107,7 +107,6 @@ public class JMusicBot
                         new QueueCmd(bot),
                         new RemoveCmd(bot),
                         new SearchCmd(bot),
-                        new SCSearchCmd(bot),
                         new ShuffleCmd(bot),
                         new SkipCmd(bot),
 
@@ -120,7 +119,10 @@ public class JMusicBot
                         new SkiptoCmd(bot),
                         new StopCmd(bot),
                         new VolumeCmd(bot),
-                        
+                        new BassBoostCmd(bot),
+                        new DisconnectCmd(bot),
+                        new ConnectCmd(bot),
+
                         new PrefixCmd(bot),
                         new SetdjCmd(bot),
                         new SettcCmd(bot),

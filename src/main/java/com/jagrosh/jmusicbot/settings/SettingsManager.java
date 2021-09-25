@@ -16,6 +16,7 @@
 package com.jagrosh.jmusicbot.settings;
 
 import com.jagrosh.jdautilities.command.GuildSettingsManager;
+import com.jagrosh.jmusicbot.lang.LangName;
 import com.jagrosh.jmusicbot.utils.OtherUtil;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -74,7 +75,7 @@ public class SettingsManager implements GuildSettingsManager
     
     private Settings createDefaultSettings()
     {
-        return new Settings(this, 0, 0, 0, 100, null, null, null);
+        return new Settings(this, 0, 0, 0, 100, null, null, null, LangName.ENG);
     }
     
     protected void writeSettings()
@@ -102,7 +103,7 @@ public class SettingsManager implements GuildSettingsManager
         try {
             Files.write(OtherUtil.getPath("serversettings.json"), obj.toString(4).getBytes());
         } catch(IOException ex){
-            LoggerFactory.getLogger("Settings").warn("Failed to write to file: "+ex);
+            LoggerFactory.getLogger("Settings").error("Failed to write to file: "+ex);
         }
     }
 }

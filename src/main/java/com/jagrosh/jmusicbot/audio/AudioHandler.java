@@ -17,7 +17,9 @@ package com.jagrosh.jmusicbot.audio;
 
 import com.jagrosh.jmusicbot.JMusicBot;
 import com.jagrosh.jmusicbot.playlist.PlaylistLoader.Playlist;
+import com.jagrosh.jmusicbot.settings.RepeatMode;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.filter.equalizer.EqualizerFactory;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
@@ -50,15 +52,25 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     
     private final PlayerManager manager;
     private final AudioPlayer audioPlayer;
+    private final EqualizerFactory equalizer;
     private final long guildId;
     
     private AudioFrame lastFrame;
+
+    private static final float[] BASS_BOOST = {
+            0.2f, 0.15f, 0.1f, 0.05f, 0.0f, -0.05f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f
+    };
+//    private float nightcore = 1.0f;
+//    private boolean vaporwave = false;
+//    private int pitch = 0;
+//    private float tempo = 1.0f;
 
     protected AudioHandler(PlayerManager manager, Guild guild, AudioPlayer player)
     {
         this.manager = manager;
         this.audioPlayer = player;
         this.guildId = guild.getIdLong();
+        this.equalizer = new EqualizerFactory();
     }
 
     public int addTrackToFront(QueuedTrack qtrack)
@@ -120,7 +132,25 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             return 0;
         return audioPlayer.getPlayingTrack().getUserData(Long.class);
     }
-    
+
+    public void enableBassboost(boolean state) {
+        if(state) {
+            getPlayer().setFilterFactory(equalizer);
+            for (int i = 0; i < BASS_BOOST.length; i++) {
+                equalizer.setGain(i, BASS_BOOST[i] + 2);
+            }
+
+            for (int i = 0; i < BASS_BOOST.length; i++) {
+                equalizer.setGain(i, -BASS_BOOST[i] + 1);
+            }
+        } else {
+            for (int i = 0; i < BASS_BOOST.length; i++) {
+                equalizer.setGain(i, BASS_BOOST[i] - 2);
+            }
+        }
+
+    }
+
     public boolean playFromDefault()
     {
         if(!defaultQueue.isEmpty())
@@ -154,9 +184,11 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) 
     {
         // if the track ended normally, and we're in repeat mode, re-add it to the queue
-        if(endReason==AudioTrackEndReason.FINISHED && Objects.equals(manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode(), "track")) {
-            System.out.println(manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode());
+        if(endReason==AudioTrackEndReason.FINISHED && Objects.equals(manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode(), RepeatMode.TRACK)) {
             queue.add(new QueuedTrack(track.makeClone(), track.getUserData(Long.class) == null ? 0L : track.getUserData(Long.class)));
+        }
+        if(endReason==AudioTrackEndReason.FINISHED && Objects.equals(manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode(), RepeatMode.QUEUE)) {
+            queue.addAt(queue.size(), new QueuedTrack(track.makeClone(), track.getUserData(Long.class) == null ? 0L : track.getUserData(Long.class)));
         }
         if(queue.isEmpty())
         {
@@ -189,7 +221,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         votes.clear();
         manager.getBot().getNowplayingHandler().onTrackUpdate(guildId, track, this);
     }
-    
+
     // Formatting
     public Message getNowPlaying(JDA jda)
     {

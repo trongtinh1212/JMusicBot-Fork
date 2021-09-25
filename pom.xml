@@ -22,18 +22,18 @@
             <name>bintray</name>
             <url>https://dl.bintray.com/sedmelluq/com.sedmelluq</url>
         </repository>
+        <repository>
+            <id>maven2</id>
+            <name>maven-central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
     </repositories>
     
     <dependencies>
         <dependency>
             <groupId>net.dv8tion</groupId> 
             <artifactId>JDA</artifactId> 
-            <version>4.3.0_312</version>
-        </dependency>
-        <dependency>
-            <groupId>se.michaelthelin.spotify</groupId>
-            <artifactId>spotify-web-api-java</artifactId>
-            <version>2.0.3</version>
+            <version>4.3.0_330</version>
         </dependency>
         <dependency>
             <groupId>com.sedmelluq</groupId>

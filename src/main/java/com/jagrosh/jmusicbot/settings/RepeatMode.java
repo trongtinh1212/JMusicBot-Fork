@@ -5,7 +5,7 @@ public enum RepeatMode {
     QUEUE("queue"),
     OFF("off");
 
-    private String name;
+    private final String name;
 
     RepeatMode(String name) {
         this.name = name();

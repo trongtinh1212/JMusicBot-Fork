@@ -134,7 +134,7 @@ public class PlayCmd extends MusicCommand
             if(playlist==null || !event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_ADD_REACTION))
                 try {
                     m.editMessage(event.getClient().getSuccess() + "Loaded track " + "**" + track.getInfo().title + "**").queue();
-                    m.editMessageEmbeds(mb.build()).queue();
+                    m.editMessageEmbeds(mb.build()).complete();
                 } catch (Exception e) {
                       e.printStackTrace();
                 }
