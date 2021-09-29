@@ -58,7 +58,6 @@ public class BotConfig
     private boolean enableLoadBalancing;
     private boolean updatealerts;
     private boolean useEval;
-    private boolean dbots;
     private long owner, maxSeconds, aloneTimeUntilStop;
     private OnlineStatus status;
     private Activity game;
@@ -114,7 +113,6 @@ public class BotConfig
             playlistsFolder = config.getString("playlistsfolder");
             aliases = config.getConfig("aliases");
             transforms = config.getConfig("transforms");
-            dbots = owner == 113156185389092864L;
             enableLoadBalancing = config.getBoolean("loadbalancing");
             loadbalancers = config.getString("loadbalancers");
 
@@ -285,12 +283,7 @@ public class BotConfig
     {
         return playlistsFolder;
     }
-    
-    public boolean getDBots()
-    {
-        return dbots;
-    }
-    
+
     public boolean useUpdateAlerts()
     {
         return updatealerts;
