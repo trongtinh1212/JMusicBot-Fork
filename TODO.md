@@ -12,3 +12,4 @@
 - Remove range cmd
 - Save personal queue
 - Add ru-eng-custom lang support
+- Execute commands only in specified channel :)
