@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jagrosh.jmusicbot.gui;
+package com.jagrosh.jmusicbot.gui.panels;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import com.jagrosh.jmusicbot.gui.TextAreaOutputStream;
+
+import java.awt.*;
 import java.io.PrintStream;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,9 +33,12 @@ public class ConsolePanel extends JPanel {
     {
         super();
         JTextArea text = new JTextArea();
+        text.setForeground(Color.white);
+        text.setBackground(Color.decode("#23272A"));
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
         text.setEditable(false);
+        text.setBorder(null);
         PrintStream con=new PrintStream(new TextAreaOutputStream(text));
         System.setOut(con);
         System.setErr(con);
