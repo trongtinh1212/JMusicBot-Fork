@@ -54,16 +54,14 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private final AudioPlayer audioPlayer;
     private final EqualizerFactory equalizer;
     private final long guildId;
-    
     private AudioFrame lastFrame;
 
     private static final float[] BASS_BOOST = {
             0.2f, 0.15f, 0.1f, 0.05f, 0.0f, -0.05f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f
     };
-//    private float nightcore = 1.0f;
-//    private boolean vaporwave = false;
-//    private int pitch = 0;
-//    private float tempo = 1.0f;
+    private float nightcore = 1.0f;
+
+    private boolean bassboost;
 
     protected AudioHandler(PlayerManager manager, Guild guild, AudioPlayer player)
     {
@@ -143,12 +141,16 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             for (int i = 0; i < BASS_BOOST.length; i++) {
                 equalizer.setGain(i, -BASS_BOOST[i] + 1);
             }
+            bassboost = true;
         } else {
-            for (int i = 0; i < BASS_BOOST.length; i++) {
-                equalizer.setGain(i, BASS_BOOST[i] - 2);
-            }
+            getPlayer().setFilterFactory(null);
+            bassboost = false;
         }
 
+    }
+
+    public boolean getBassboostState() {
+        return bassboost;
     }
 
     public boolean playFromDefault()

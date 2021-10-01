@@ -11,7 +11,6 @@ public class BassBoostCmd extends DJCommand {
         super(bot);
         this.name = "bassboost";
         this.help = "bassboost current track";
-        this.arguments = "<on|off>";
         this.aliases = bot.getConfig().getAliases(this.name);
         this.beListening = false;
         this.bePlaying = true;
@@ -21,18 +20,13 @@ public class BassBoostCmd extends DJCommand {
     public void doCommand(CommandEvent event) {
         AudioHandler handler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
 
-        switch (event.getArgs()) {
-            case "on":
-                handler.enableBassboost(true);
-                event.replySuccess("Enabled bassboost!");
-                break;
-            case "off":
-                handler.enableBassboost(false);
-                event.replySuccess("Disabled bassboost!");
-                break;
-            default:
-                event.replyError("Not enough args! Type on|off");
-                break;
+        if(!handler.getBassboostState()) {
+            handler.enableBassboost(true);
+            event.replySuccess("Enabled bassboost!");
+        } else {
+            handler.enableBassboost(false);
+            event.replySuccess("Disabled bassboost!");
         }
+
     }
 }
