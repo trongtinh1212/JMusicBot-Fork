@@ -4,7 +4,6 @@
 - Repeat track segment
 - Previous track
 - Delete same tracks in queue
-- Spotify, yandex music, yandex radio 
 - ~~Add soundcloud search support~~
 - Lyrics cmd fix
 - ~~Disconnect cmd~~
@@ -13,3 +12,5 @@
 - Save personal queue
 - Add ru-eng-custom lang support
 - Execute commands only in specified channel :)
+- Stats panel
+- PlayNow Cmd
