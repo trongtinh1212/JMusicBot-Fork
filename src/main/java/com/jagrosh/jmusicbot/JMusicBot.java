@@ -20,6 +20,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import com.jagrosh.jdautilities.examples.command.*;
 import com.jagrosh.jmusicbot.commands.admin.*;
 import com.jagrosh.jmusicbot.commands.dj.*;
+import com.jagrosh.jmusicbot.commands.dj.PreviousCmd;
 import com.jagrosh.jmusicbot.commands.general.*;
 import com.jagrosh.jmusicbot.commands.music.*;
 import com.jagrosh.jmusicbot.commands.owner.*;
@@ -109,10 +110,11 @@ public class JMusicBot
                         new SearchCmd(bot),
                         new ShuffleCmd(bot),
                         new SkipCmd(bot),
-                        new TestCmd(),
+//                        new TestCmd(),
 
                         new ForceRemoveCmd(bot),
                         new ForceskipCmd(bot),
+                        new PreviousCmd(bot),
                         new MoveTrackCmd(bot),
                         new PauseCmd(bot),
                         new PlaynextCmd(bot),
