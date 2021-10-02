@@ -65,10 +65,13 @@ public class SeekCmd extends MusicCommand {
             seconds = Integer.parseInt(args.substring(3, 5));
         } else if (Pattern.matches("^([0-5]\\d)$", args)) {
             seconds = Integer.parseInt(args.substring(0, 2));
+        } else if(args.equals("0")) {
+            seconds = 0;
         } else {
             event.replyError("Invalid seek!");
             return;
         }
+
         seek_milliseconds += hours * 3600000 + minutes * 60000 + seconds * 1000;
         if (seek_milliseconds <= track_duration) {
             handler.getPlayer().getPlayingTrack().setPosition(seek_milliseconds);
