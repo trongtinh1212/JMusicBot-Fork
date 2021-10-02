@@ -19,9 +19,12 @@ public class DisconnectCmd extends DJCommand {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
 
         if(current != null) {
-            handler.stopAndClear();
-            event.getGuild().getAudioManager().closeAudioConnection();
-            event.replySuccess("Bye!");
+            try {
+                handler.stopAndClear();
+                event.getGuild().getAudioManager().closeAudioConnection();
+            } finally {
+                event.replySuccess("Bye!");
+            }
         } else {
             event.replyError("Im not in voice channel!");
         }
