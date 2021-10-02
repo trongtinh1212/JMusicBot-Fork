@@ -1,8 +1,8 @@
 ## TODO
 - ~~Seek cmd~~
-- Repeat fix
+~~- Repeat fix~~
 - Previous track
-- Delete same tracks in queue
+- Remove same tracks in queue
 - ~~Add soundcloud search support~~
 - Lyrics cmd fix
 - ~~Disconnect cmd~~
