@@ -55,13 +55,14 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private final EqualizerFactory equalizer;
     private final long guildId;
     private AudioFrame lastFrame;
+    private AudioTrack previous;
+    private boolean bassboost;
 
     private static final float[] BASS_BOOST = {
             0.2f, 0.15f, 0.1f, 0.05f, 0.0f, -0.05f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f
     };
     private float nightcore = 1.0f;
 
-    private boolean bassboost;
 
     protected AudioHandler(PlayerManager manager, Guild guild, AudioPlayer player)
     {
@@ -149,6 +150,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
 
     }
 
+    public AudioTrack getPreviousTrack() {
+        return previous;
+    }
+
     public boolean getBassboostState() {
         return bassboost;
     }
@@ -186,12 +191,16 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) 
     {
         // if the track ended normally, and we're in repeat mode, re-add it to the queue
+        if(endReason==AudioTrackEndReason.FINISHED) {
+            previous = track;
+        }
         if(endReason==AudioTrackEndReason.FINISHED && Objects.equals(manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode(), RepeatMode.TRACK)) {
             queue.add(new QueuedTrack(track.makeClone(), track.getUserData(Long.class) == null ? 0L : track.getUserData(Long.class)));
         }
         if(endReason==AudioTrackEndReason.FINISHED && Objects.equals(manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode(), RepeatMode.QUEUE)) {
             queue.addAt(queue.size(), new QueuedTrack(track.makeClone(), track.getUserData(Long.class) == null ? 0L : track.getUserData(Long.class)));
         }
+
         if(queue.isEmpty())
         {
             if(!playFromDefault())
