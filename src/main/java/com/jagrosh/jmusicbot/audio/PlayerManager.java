@@ -63,10 +63,11 @@ public class PlayerManager extends DefaultAudioPlayerManager
         registerSourceManager(new LocalAudioSourceManager());
         registerSourceManager(new YoutubeAudioSourceManager());
 
-        if(bot.getConfig().enableLoadBalancing()) {
-           useRemoteNodes(bot.getConfig().getLoadBalancers());
-           log.info("Using load balancing....");
-        }
+        // fuck lavaplayer developers
+//        if(bot.getConfig().enableLoadBalancing()) {
+//           useRemoteNodes(bot.getConfig().getLoadBalancers());
+//           log.info("Using load balancing....");
+//        }
         ConnectorNativeLibLoader.loadConnectorLibrary();
     }
     
