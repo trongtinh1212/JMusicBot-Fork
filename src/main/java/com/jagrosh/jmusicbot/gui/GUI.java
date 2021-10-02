@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 import com.jagrosh.jmusicbot.Bot;
+import com.jagrosh.jmusicbot.gui.panels.ConsolePanel;
 
 
 /**
