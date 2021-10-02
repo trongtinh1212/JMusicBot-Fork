@@ -18,6 +18,7 @@ A cross-platform Discord music bot with a clean interface, and that is easy to s
  * Update repeat features
  * Lavaplayer load balancing
  * Logging errors to file
+ * Create bassboost feature (want to add nightcore, pitch and more)
 
 ## Features
   * Easy to run (just make sure Java is installed, and run!)

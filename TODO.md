@@ -12,3 +12,4 @@
 - Add lang file
 - Execute commands only in specified channel :)
 - PlayNow Cmd
+- Add pitch, nightcore effects
