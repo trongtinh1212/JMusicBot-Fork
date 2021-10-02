@@ -1,16 +1,14 @@
 ## TODO
 - ~~Seek cmd~~
 - Repeat fix
-- Repeat track segment
 - Previous track
 - Delete same tracks in queue
 - ~~Add soundcloud search support~~
 - Lyrics cmd fix
 - ~~Disconnect cmd~~
-- Join cmd
+~~- Join cmd~~
 - Remove range cmd
 - Save personal queue
-- Add ru-eng-custom lang support
+- Add lang file
 - Execute commands only in specified channel :)
-- Stats panel
 - PlayNow Cmd

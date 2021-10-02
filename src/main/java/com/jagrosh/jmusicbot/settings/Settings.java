@@ -20,8 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.jagrosh.jmusicbot.Bot;
-import com.jagrosh.jmusicbot.lang.LangName;
-import net.dv8tion.jda.api.Region;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
