@@ -73,7 +73,7 @@ public class SettingsManager implements GuildSettingsManager
     
     private Settings createDefaultSettings()
     {
-        return new Settings(this, 0, 0, 0, 100, null, null, null, LangName.ENG);
+        return new Settings(this, 0, 0, 0, 100, null, null, null);
     }
     
     protected void writeSettings()
