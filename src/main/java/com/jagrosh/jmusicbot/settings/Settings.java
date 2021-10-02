@@ -40,7 +40,6 @@ public class Settings implements GuildSettingsProvider
     private RepeatMode repeatMode;
     private String prefix;
     private Bot bot;
-    private LangName langName;
 
     public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
@@ -75,7 +74,7 @@ public class Settings implements GuildSettingsProvider
         this.prefix = prefix;
     }
     
-    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix, LangName langName)
+    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
         this.textId = textId;
@@ -85,7 +84,6 @@ public class Settings implements GuildSettingsProvider
         this.defaultPlaylist = defaultPlaylist;
         this.repeatMode = repeatMode;
         this.prefix = prefix;
-        this.langName = langName;
     }
     
     // Getters
@@ -97,10 +95,6 @@ public class Settings implements GuildSettingsProvider
     public VoiceChannel getVoiceChannel(Guild guild)
     {
         return guild == null ? null : guild.getVoiceChannelById(voiceId);
-    }
-
-    public LangName getGuildLang() {
-        return langName;
     }
 
     public Role getRole(Guild guild)
