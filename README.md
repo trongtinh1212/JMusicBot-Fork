@@ -14,11 +14,14 @@ A cross-platform Discord music bot with a clean interface, and that is easy to s
 
 ## Fork features
  * Update depends in pom.xml
- * Add seek,previous command
+ * Add commands (connect, disconnect, bassboost, seek )
+ * More embeds
  * Update repeat features
- * Lavaplayer load balancing
+ * Lavaplayer load balancing (not working :<)
  * Logging errors to file
- * Create bassboost feature (want to add nightcore, pitch and more)
+ * Add many equalizer methods
+ * Add queue repeat
+ * Add discord buttons, easy control music!
 
 ## Features
   * Easy to run (just make sure Java is installed, and run!)
