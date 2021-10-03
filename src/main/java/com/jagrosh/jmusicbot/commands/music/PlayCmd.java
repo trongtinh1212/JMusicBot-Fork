@@ -37,9 +37,11 @@ import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.exceptions.PermissionException;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +53,16 @@ public class PlayCmd extends MusicCommand
 {
     private final static String LOAD = "\uD83D\uDCE5"; // 📥
     private final static String CANCEL = "\uD83D\uDEAB"; // 🚫
+    private final static String SPEAKER_LOW = "\uD83D\uDD08"; // 🔉
+    private final static String SPEAKER_HIGH = "\uD83D\uDD09";
+    private final static String LIST = "\uD83D\uDCC3"; // 📃
+    private final static String RULER = "\uD83D\uDCCF"; // 📏
+    private final static String STOP = "\u23F9\uFE0F"; // ⏹️
+    private final static String PLAYPAUSE = "\u23EF\uFE0F"; // ⏯️️
+    private final static String SKIP = "\u23E9"; // ⏩️️
+    private final static String REPEAT = "\uD83D\uDD01"; // 🔁️️
+
+
     Logger log = LoggerFactory.getLogger("MusicBot");
 
     private final String loadingEmoji;
@@ -97,9 +109,9 @@ public class PlayCmd extends MusicCommand
         String args = event.getArgs().startsWith("<") && event.getArgs().endsWith(">") 
                 ? event.getArgs().substring(1,event.getArgs().length()-1) 
                 : event.getArgs().isEmpty() ? event.getMessage().getAttachments().get(0).getUrl() : event.getArgs();
-        event.reply(loadingEmoji+" Loading... `["+args+"]`", m -> bot.getPlayerManager().loadItemOrdered(event.getGuild(), args, new ResultHandler(m,event,false)));
+        event.reply(loadingEmoji+" **Loading...** `["+args+"]`", m -> bot.getPlayerManager().loadItemOrdered(event.getGuild(), args, new ResultHandler(m,event,false)));
     }
-    
+
     private class ResultHandler implements AudioLoadResultHandler
     {
         private final Message m;
@@ -123,9 +135,12 @@ public class PlayCmd extends MusicCommand
             }
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
             EmbedBuilder mb = new EmbedBuilder();
-            mb.setAuthor(track.getInfo().author);
+            mb.setAuthor(track.getInfo().author, null);
             mb.setTitle(track.getInfo().title, track.getInfo().uri);
             mb.setColor(Color.red);
+            if(event.getSelfMember().getVoiceState() != null) {
+                mb.setFooter(SPEAKER_HIGH + " Channel: " + "#" + event.getSelfMember().getVoiceState().getChannel().getName() + ";" + LIST + "Queue position: " + track.getPosition() + ";" + RULER + " Track length: " + FormatUtil.formatTime(track.getDuration()) , event.getAuthor().getAvatarUrl());
+            }
             if(track instanceof YoutubeAudioTrack) mb.setImage("https://img.youtube.com/vi/"+track.getIdentifier()+"/mqdefault.jpg");
 
             int pos = handler.addTrack(new QueuedTrack(track, event.getAuthor()))+1;
@@ -133,7 +148,11 @@ public class PlayCmd extends MusicCommand
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0?"to begin playing":" to the queue at position "+pos));
             if(playlist==null || !event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_ADD_REACTION))
                 try {
-                    m.editMessage(event.getClient().getSuccess() + "Loaded track " + "**" + track.getInfo().title + "**").queue();
+                    m.editMessageComponents(
+                            ActionRow.of(Button.secondary("play:volume_minus", SPEAKER_LOW), Button.secondary("play:volume_plus", SPEAKER_HIGH), Button.secondary("play:stop", STOP), Button.secondary("play:play_pause", PLAYPAUSE), Button.secondary("play:skip", SKIP)), // 1st row below message
+                            ActionRow.of(Button.secondary("play:repeat", REPEAT))
+                    ).queue();
+                    m.editMessage(event.getClient().getSuccess() + "**Loaded track** " + "`" + track.getInfo().title + "`").queue();
                     m.editMessageEmbeds(mb.build()).complete();
                 } catch (Exception e) {
                       e.printStackTrace();
@@ -231,7 +250,7 @@ public class PlayCmd extends MusicCommand
             }
         }
     }
-    
+
     public class PlaylistCmd extends MusicCommand
     {
         public PlaylistCmd(Bot bot)
