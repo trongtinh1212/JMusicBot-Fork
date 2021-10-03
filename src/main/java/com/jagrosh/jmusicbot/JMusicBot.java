@@ -115,7 +115,7 @@ public class JMusicBot
 
                         new ForceRemoveCmd(bot),
                         new ForceskipCmd(bot),
-                        //  new PreviousCmd(bot),
+                        new PreviousCmd(bot),
                         new SpeedCmd(bot),
                         new MoveTrackCmd(bot),
                         new PauseCmd(bot),

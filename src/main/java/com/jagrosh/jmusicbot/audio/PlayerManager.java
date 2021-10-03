@@ -15,6 +15,7 @@
  */
 package com.jagrosh.jmusicbot.audio;
 
+import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
 import com.jagrosh.jmusicbot.Bot;
 import com.sedmelluq.discord.lavaplayer.natives.ConnectorNativeLibLoader;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
@@ -32,6 +33,8 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
 
 /**
  *
@@ -89,6 +92,11 @@ public class PlayerManager extends DefaultAudioPlayerManager
             AudioPlayer player = createPlayer();
             player.setVolume(bot.getSettingsManager().getSettings(guild).getVolume());
             handler = new AudioHandler(this, guild, player);
+            player.setFilterFactory((track, format, output)->{
+                TimescalePcmAudioFilter audioFilter = new TimescalePcmAudioFilter(output, format.channelCount, format.sampleRate);
+                audioFilter.setSpeed(bot.getSettingsManager().getSettings(guild).getSpeed());
+                return Collections.singletonList(audioFilter);
+            });
             player.addListener(handler);
             guild.getAudioManager().setSendingHandler(handler);
         }

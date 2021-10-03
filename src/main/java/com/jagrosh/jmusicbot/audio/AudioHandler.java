@@ -15,6 +15,8 @@
  */
 package com.jagrosh.jmusicbot.audio;
 
+import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
+import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.JMusicBot;
 import com.jagrosh.jmusicbot.playlist.PlaylistLoader.Playlist;
 import com.jagrosh.jmusicbot.settings.RepeatMode;
@@ -46,10 +48,10 @@ import net.dv8tion.jda.api.entities.User;
  */
 public class AudioHandler extends AudioEventAdapter implements AudioSendHandler 
 {
+    private Bot bot;
     private final FairQueue<QueuedTrack> queue = new FairQueue<>();
     private final List<AudioTrack> defaultQueue = new LinkedList<>();
     private final Set<String> votes = new HashSet<>();
-    
     private final PlayerManager manager;
     private final AudioPlayer audioPlayer;
     private final EqualizerFactory equalizer;
@@ -61,8 +63,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private static final float[] BASS_BOOST = {
             0.2f, 0.15f, 0.1f, 0.05f, 0.0f, -0.05f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f
     };
-    private float nightcore = 1.0f;
-
 
     protected AudioHandler(PlayerManager manager, Guild guild, AudioPlayer player)
     {
@@ -130,6 +130,11 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         if(audioPlayer.getPlayingTrack()==null || audioPlayer.getPlayingTrack().getUserData(Long.class)==null)
             return 0;
         return audioPlayer.getPlayingTrack().getUserData(Long.class);
+    }
+
+    public void setSpeed(Guild guild, double speed) {
+        Settings settings = manager.getBot().getSettingsManager().getSettings(guildId);
+        settings.setSpeed(speed);
     }
 
     public void enableBassboost(boolean state) {
