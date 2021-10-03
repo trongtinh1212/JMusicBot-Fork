@@ -57,6 +57,7 @@ public class BotConfig
     private boolean enableLoadBalancing;
     private boolean updatealerts;
     private boolean useEval;
+    private int maxvolume;
     private long owner, maxSeconds, aloneTimeUntilStop;
     private OnlineStatus status;
     private Activity game;
@@ -114,6 +115,7 @@ public class BotConfig
             transforms = config.getConfig("transforms");
             enableLoadBalancing = config.getBoolean("loadbalancing");
             loadbalancers = config.getString("loadbalancers");
+            maxvolume = config.getInt("maxvolume");
 
             
             // we may need to write a new config file
@@ -227,7 +229,9 @@ public class BotConfig
     {
         return owner;
     }
-    
+
+    public int getMaxVolume() { return maxvolume; }
+
     public String getSuccess()
     {
         return successEmoji;
