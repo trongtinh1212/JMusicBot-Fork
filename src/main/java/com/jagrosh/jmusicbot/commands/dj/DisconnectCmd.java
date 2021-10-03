@@ -11,6 +11,7 @@ public class DisconnectCmd extends DJCommand {
         super(bot);
         this.name = "disconnect";
         this.help = "bot will leave the channel";
+        this.aliases = bot.getConfig().getAliases(this.name);
     }
 
     @Override

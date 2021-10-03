@@ -19,6 +19,7 @@ public class ConnectCmd extends DJCommand {
         this.name = "connect";
         this.help = "bot will leave and connect specified channel";
         this.arguments = "<nothing or channel id>";
+        this.aliases = bot.getConfig().getAliases(this.name);
     }
 
     public void doCommand(CommandEvent event)  {
