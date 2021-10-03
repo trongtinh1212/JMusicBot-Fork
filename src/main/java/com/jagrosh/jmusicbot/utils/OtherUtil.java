@@ -39,7 +39,7 @@ public class OtherUtil
     public final static String NEW_VERSION_AVAILABLE = "There is a new version of JMusicBot available!\n"
                     + "Current version: %s\n"
                     + "New Version: %s\n\n"
-                    + "Please visit https://github.com/d1m0s23/JMusicBotFork to get the latest release.";
+                    + "Please visit https://github.com/d1m0s23/JMusicBot-Fork/releases/latest to get the latest release.";
     private final static String WINDOWS_INVALID_PATH = "c:\\windows\\system32\\";
     
     /**
