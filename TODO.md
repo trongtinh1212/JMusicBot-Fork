@@ -1,15 +1,15 @@
 ## TODO
 - ~~Seek cmd~~
 ~~- Repeat fix~~
-- Previous track
+- Previous fix
 - Remove same tracks in queue
 - ~~Add soundcloud search support~~
 - Lyrics cmd fix
 - ~~Disconnect cmd~~
 ~~- Join cmd~~
+- ~~Add discord buttons~~
 - Remove range cmd
 - Save personal queue
 - Add lang file
 - Execute commands only in specified channel :)
-- PlayNow Cmd
-- Add pitch, nightcore effects
+- Add many equalizer methods
