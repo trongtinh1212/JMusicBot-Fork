@@ -33,7 +33,7 @@ public class InteractionListener extends ListenerAdapter {
                     event.reply("Volume +10").queue();
                     break;
                 case "play:stop":
-                    handler.getPlayer().stopTrack();
+                    handler.getPlayer().getPlayingTrack().stop();
                     event.reply("Stopped").queue();
                     break;
                 case "play:play_pause":
