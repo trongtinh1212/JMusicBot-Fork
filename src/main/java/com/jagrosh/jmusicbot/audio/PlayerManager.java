@@ -16,6 +16,7 @@
 package com.jagrosh.jmusicbot.audio;
 
 import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
+import com.github.natanbc.lavadsp.tremolo.TremoloPcmAudioFilter;
 import com.jagrosh.jmusicbot.Bot;
 import com.sedmelluq.discord.lavaplayer.natives.ConnectorNativeLibLoader;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
@@ -66,7 +67,7 @@ public class PlayerManager extends DefaultAudioPlayerManager
         registerSourceManager(new LocalAudioSourceManager());
         registerSourceManager(new YoutubeAudioSourceManager());
 
-        // fuck lavaplayer developers
+        // lavaplayer developers pls fix
 //        if(bot.getConfig().enableLoadBalancing()) {
 //           useRemoteNodes(bot.getConfig().getLoadBalancers());
 //           log.info("Using load balancing....");
@@ -93,9 +94,12 @@ public class PlayerManager extends DefaultAudioPlayerManager
             player.setVolume(bot.getSettingsManager().getSettings(guild).getVolume());
             handler = new AudioHandler(this, guild, player);
             player.setFilterFactory((track, format, output)->{
-                TimescalePcmAudioFilter audioFilter = new TimescalePcmAudioFilter(output, format.channelCount, format.sampleRate);
-                audioFilter.setSpeed(bot.getSettingsManager().getSettings(guild).getSpeed());
-                return Collections.singletonList(audioFilter);
+                TimescalePcmAudioFilter TimeScale = new TimescalePcmAudioFilter(output, format.channelCount, format.sampleRate);
+                TremoloPcmAudioFilter TremoloFilter = new TremoloPcmAudioFilter(output, format.channelCount, format.sampleRate);
+
+                TimeScale.setSpeed(bot.getSettingsManager().getSettings(guild).getSpeed());
+                TremoloFilter.setDepth(bot.getSettingsManager().getSettings(guild).getDepth());
+                return Collections.singletonList(TimeScale);
             });
             player.addListener(handler);
             guild.getAudioManager().setSendingHandler(handler);

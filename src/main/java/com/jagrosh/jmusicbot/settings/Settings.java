@@ -32,6 +32,8 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 public class Settings implements GuildSettingsProvider
 {
     private final SettingsManager manager;
+    private float depth;
+    private  boolean bassboost;
     protected long textId;
     protected long voiceId;
     protected long roleId;
@@ -42,7 +44,7 @@ public class Settings implements GuildSettingsProvider
     private String prefix;
     private Bot bot;
 
-    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, float depth, boolean bassboost, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
         try
@@ -70,19 +72,23 @@ public class Settings implements GuildSettingsProvider
             this.roleId = 0;
         }
         this.volume = volume;
+        this.bassboost = bassboost;
         this.speed = speed;
+        this.depth = depth;
         this.defaultPlaylist = defaultPlaylist;
         this.repeatMode = repeatMode;
         this.prefix = prefix;
     }
     
-    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume,  double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, boolean bassboost, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
         this.textId = textId;
         this.voiceId = voiceId;
         this.roleId = roleId;
         this.volume = volume;
+        this.bassboost = bassboost;
+        this.depth = depth;
         this.speed = speed;
         this.defaultPlaylist = defaultPlaylist;
         this.repeatMode = repeatMode;
@@ -109,6 +115,10 @@ public class Settings implements GuildSettingsProvider
     {
         return volume;
     }
+
+    public boolean getBassBoost() { return bassboost; }
+
+    public float getDepth() { return depth; }
 
     public double getSpeed() { return speed; }
     
@@ -157,7 +167,15 @@ public class Settings implements GuildSettingsProvider
         this.volume = volume;
         this.manager.writeSettings();
     }
-    
+
+    public void setDepth(float d) {
+        this.depth = d;
+    }
+
+    public void setBassboost(boolean b) {
+        this.bassboost = b;
+    }
+
     public void setDefaultPlaylist(String defaultPlaylist)
     {
         this.defaultPlaylist = defaultPlaylist;
