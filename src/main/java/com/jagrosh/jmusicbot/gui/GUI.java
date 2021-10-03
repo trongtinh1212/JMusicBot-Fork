@@ -15,11 +15,12 @@
  */
 package com.jagrosh.jmusicbot.gui;
 
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
+import java.io.PrintStream;
+import javax.swing.*;
+
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.gui.panels.ConsolePanel;
 
@@ -44,9 +45,27 @@ public class GUI extends JFrame
     {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JMusicBot");
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.add("Console", console);
-        getContentPane().add(tabs);
+
+        // console output
+        JTextArea text = new JTextArea();
+        text.setForeground(Color.white);
+        text.setBackground(Color.decode("#23272A"));
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        text.setEditable(false);
+        text.setBorder(null);
+        PrintStream con=new PrintStream(new TextAreaOutputStream(text));
+        System.setOut(con);
+        System.setErr(con);
+
+        JScrollPane pane = new JScrollPane();
+        pane.setViewportView(text);
+
+        super.setLayout(new GridLayout(1,1));
+        super.add(pane);
+        super.setPreferredSize(new Dimension(400,300));
+        //end
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
