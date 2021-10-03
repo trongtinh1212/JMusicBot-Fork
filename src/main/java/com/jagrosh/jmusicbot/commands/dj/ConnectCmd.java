@@ -28,9 +28,9 @@ public class ConnectCmd extends DJCommand {
         VoiceChannel current = event.getGuild().getSelfMember().getVoiceState().getChannel();
         GuildVoiceState userState = event.getMember().getVoiceState();
 
-        if(event.getArgs().length() == 0 && !userState.inVoiceChannel() && event.getArgs().equals(Long.class)) {
+        if(event.getArgs().length() == 0 && !userState.inVoiceChannel()) {
             event.replyError("Channel not selected!");
-        }  else {
+        } else if(event.getGuild().getVoiceChannelById(event.getArgs()) == null) {
             event.replyError("Invalid channel!");
         }
         if(current != null) if(event.getArgs().length() != 0 && event.getArgs() == current.getId() && event.getArgs().equals(Long.class)) {

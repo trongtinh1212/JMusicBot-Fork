@@ -1,7 +1,7 @@
 ## TODO
 - ~~Seek cmd~~
 ~~- Repeat fix~~
-- Previous fix
+- ~~Previous fix~~
 - Remove same tracks in queue
 - ~~Add soundcloud search support~~
 - Lyrics cmd fix

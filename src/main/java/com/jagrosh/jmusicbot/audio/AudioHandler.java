@@ -58,7 +58,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private final long guildId;
     private AudioFrame lastFrame;
     private AudioTrack previous;
-    private boolean bassboost;
 
     private static final float[] BASS_BOOST = {
             0.2f, 0.15f, 0.1f, 0.05f, 0.0f, -0.05f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f
@@ -136,6 +135,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         Settings settings = manager.getBot().getSettingsManager().getSettings(guildId);
         settings.setSpeed(speed);
     }
+    public void setDepth(Guild guild, float depth) {
+        Settings settings = manager.getBot().getSettingsManager().getSettings(guildId);
+        settings.setDepth(depth);
+    }
 
     public void enableBassboost(boolean state) {
         if(state) {
@@ -147,10 +150,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             for (int i = 0; i < BASS_BOOST.length; i++) {
                 equalizer.setGain(i, -BASS_BOOST[i] + 1);
             }
-            bassboost = true;
+            bot.getSettingsManager().getSettings(guildId).setBassboost(true);
         } else {
             getPlayer().setFilterFactory(null);
-            bassboost = false;
+            bot.getSettingsManager().getSettings(guildId).setBassboost(false);
         }
 
     }
@@ -160,7 +163,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     }
 
     public boolean getBassboostState() {
-        return bassboost;
+        return  bot.getSettingsManager().getSettings(guildId).getBassBoost();
     }
 
     public boolean playFromDefault()

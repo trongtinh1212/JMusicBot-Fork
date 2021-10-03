@@ -19,17 +19,21 @@ public class SpeedCmd extends DJCommand {
     public void doCommand(CommandEvent event) {
         AudioHandler handler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
 
-        if(Double.isNaN(Double.parseDouble(event.getArgs()))) {
-            event.replyError("Only numbers supported!");
-        } else if(handler.getPlayer().getPlayingTrack() == null) {
-            event.replyError("No playing track!");
+        if(event.getArgs().length() != 0) {
+            if (Double.isNaN(Double.parseDouble(event.getArgs()))) {
+                event.replyError("Only numbers supported!");
+            } else if (handler.getPlayer().getPlayingTrack() == null) {
+                event.replyError("No playing track!");
+            } else {
+                long lenght = handler.getPlayer().getPlayingTrack().getPosition();
+                handler.setSpeed(event.getGuild(), Double.parseDouble(event.getArgs()));
+                handler.getQueue().add(new QueuedTrack(handler.getPlayer().getPlayingTrack().makeClone(), handler.getPlayer().getPlayingTrack().getUserData(Long.class) == null ? 0L : handler.getPlayer().getPlayingTrack().getUserData(Long.class)));
+                handler.getPlayer().stopTrack();
+                handler.getPlayer().getPlayingTrack().setPosition(lenght);
+                event.replySuccess("Speed now: " + "`" + event.getArgs() + "`");
+            }
         } else {
-            long lenght = handler.getPlayer().getPlayingTrack().getPosition();
-            handler.setSpeed(event.getGuild(), Double.parseDouble(event.getArgs()));
-            handler.getQueue().add(new QueuedTrack(handler.getPlayer().getPlayingTrack().makeClone(), handler.getPlayer().getPlayingTrack().getUserData(Long.class) == null ? 0L :handler.getPlayer().getPlayingTrack().getUserData(Long.class)));
-            handler.getPlayer().stopTrack();
-            handler.getPlayer().getPlayingTrack().setPosition(lenght);
-            event.replySuccess("Speed now: " + "`" + event.getArgs() + "`");
+            event.replyError("Invalid args!");
         }
 
     }
