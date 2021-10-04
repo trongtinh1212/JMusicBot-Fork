@@ -11,7 +11,8 @@
       "generator": "secret"
     },
     "OWNER": {
-      "description": "Discord id of the bot owner."
+      "description": "Discord id of the bot owner.",
+      "generator": "secret"
     }
   }
 }
