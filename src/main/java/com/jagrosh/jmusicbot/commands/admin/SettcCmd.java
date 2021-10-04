@@ -62,7 +62,7 @@ public class SettcCmd extends AdminCommand
             else
             {
                 s.setTextChannel(list.get(0));
-                event.reply(event.getClient().getSuccess()+" Music commands can now only be used in <#"+list.get(0).getId()+">");
+                event.replySuccess(" Music can now only be played in "+list.get(0).getAsMention());
             }
         }
     }

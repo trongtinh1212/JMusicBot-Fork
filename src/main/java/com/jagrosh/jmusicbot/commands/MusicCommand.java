@@ -71,7 +71,7 @@ public abstract class MusicCommand extends Command
             if(!userState.inVoiceChannel() || userState.isDeafened() || (current!=null && !userState.getChannel().equals(current)))
             {
                 if(userState.isDeafened()) { event.replyError("You must turn on your headphones in discord before playing music!"); return; }
-                event.replyError("You must be listening in "+(current==null ? "a voice channel" : "**"+current.getName()+"**")+" to use that!");
+                event.replyError("You must be listening in "+(current==null ? "a voice channel" : current.getAsMention())+" to use that!");
                 return;
             }
 
@@ -91,7 +91,7 @@ public abstract class MusicCommand extends Command
                 }
                 catch(PermissionException ex) 
                 {
-                    event.reply(event.getClient().getError()+" I am unable to connect to **"+userState.getChannel().getName()+"**!");
+                    event.replyError(" I am unable to connect to "+userState.getChannel().getAsMention()+"!");
                     return;
                 }
             }
