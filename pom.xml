@@ -49,6 +49,7 @@
 <!--            <artifactId>lavaplayer</artifactId>-->
 <!--            <version>1.3.78</version>-->
 <!--        </dependency>-->
+        <!--        using jagrosh lavaplayer fork with soundcloud fix-->
         <dependency>
             <groupId>com.github.jagrosh</groupId>
             <artifactId>lavaplayer</artifactId>
@@ -61,9 +62,9 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>com.jagrosh</groupId>
+            <groupId>com.github.jagrosh</groupId>
             <artifactId>JLyrics</artifactId>
-            <version>0.4</version>
+            <version>-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>

@@ -36,8 +36,8 @@ public class BotConfig
 {
     private final Prompt prompt;
     private final static String CONTEXT = "Config";
-    private final static String START_TOKEN = "/// START OF JMUSICBOT-FORK CONFIG ///";
-    private final static String END_TOKEN = "/// END OF JMUSICBOT-FORK CONFIG ///";
+    private final static String START_TOKEN = "/// START OF JMUSICBOT CONFIG ///";
+    private final static String END_TOKEN = "/// END OF JMUSICBOT CONFIG ///";
     
     private Path path = null;
     private String token;
@@ -45,7 +45,6 @@ public class BotConfig
     private String altprefix;
     private String helpWord;
     private String playlistsFolder;
-    private String loadbalancers;
     private String successEmoji;
     private String warningEmoji;
     private String errorEmoji;
@@ -54,7 +53,6 @@ public class BotConfig
     private boolean stayInChannel;
     private boolean songInGame;
     private boolean npImages;
-    private boolean enableLoadBalancing;
     private boolean updatealerts;
     private boolean useEval;
     private int maxvolume;
@@ -116,8 +114,6 @@ public class BotConfig
             playlistsFolder = config.getString("playlistsfolder");
             aliases = config.getConfig("aliases");
             transforms = config.getConfig("transforms");
-            enableLoadBalancing = config.getBoolean("loadbalancing");
-            loadbalancers = config.getString("loadbalancers");
             maxvolume = config.getInt("maxvolume");
             depth = config.getString("depth");
             speed = config.getString("speed");
@@ -151,8 +147,7 @@ public class BotConfig
                 try
                 {
                     owner = Long.parseLong(prompt.prompt("Owner ID was missing, or the provided owner ID is not valid."
-                        + "\nPlease provide the User ID of the bot's owner."
-                        + "\nOwner User ID: "));
+                            + "\nOwner User ID: "));
                 }
                 catch(NumberFormatException | NullPointerException ex)
                 {
@@ -180,7 +175,7 @@ public class BotConfig
             prompt.alert(Prompt.Level.ERROR, CONTEXT, ex + ": " + ex.getMessage() + "\n\nConfig Location: " + path.toAbsolutePath().toString());
         }
     }
-    
+
     private void writeToFile()
     {
         String original = OtherUtil.loadResource(this, "/reference.conf");
@@ -192,19 +187,19 @@ public class BotConfig
         else
         {
             bytes = original.substring(original.indexOf(START_TOKEN)+START_TOKEN.length(), original.indexOf(END_TOKEN))
-                .replace("BOT_TOKEN_HERE", token)
-                .replace("0 // OWNER ID", Long.toString(owner))
-                .trim().getBytes();
+                    .replace("BOT_TOKEN_HERE", token)
+                    .replace("0 // OWNER ID", Long.toString(owner))
+                    .trim().getBytes();
         }
-        try 
+        try
         {
             Files.write(path, bytes);
         }
-        catch(IOException ex) 
+        catch(IOException ex)
         {
             prompt.alert(Prompt.Level.WARNING, CONTEXT, "Failed to write new config options to config.txt: "+ex
-                + "\nPlease make sure that the files are not on your desktop or some other restricted area.\n\nConfig Location: " 
-                + path.toAbsolutePath().toString());
+                    + "\nPlease make sure that the files are not on your desktop or some other restricted area.\n\nConfig Location: "
+                    + path.toAbsolutePath().toString());
         }
     }
     
@@ -331,10 +326,6 @@ public class BotConfig
     {
         return FormatUtil.formatTime(maxSeconds * 1000);
     }
-
-    public Boolean enableLoadBalancing() { return enableLoadBalancing; }
-
-    public String getLoadBalancers() { return loadbalancers; }
 
     public long getAloneTimeUntilStop()
     {
