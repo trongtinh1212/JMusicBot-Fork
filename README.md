@@ -15,12 +15,11 @@ A cross-platform Discord music bot with a clean interface, and that is easy to s
 
 ## Fork features
  * Update depends in pom.xml
- * Add commands (connect, disconnect, bassboost, seek )
+ * Add commands (connect, disconnect, seek, previous)
  * More embeds
  * Update repeat features
- * Lavaplayer load balancing (not working :<)
  * Logging errors to file
- * Add many equalizer methods
+ * Add bassboost, speed, karaoke filters
  * Add queue repeat
  * Add discord buttons, easy control music!
  * Can set max track volume in bot config
