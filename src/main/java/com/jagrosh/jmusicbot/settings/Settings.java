@@ -44,7 +44,7 @@ public class Settings implements GuildSettingsProvider
     private String prefix;
     private Bot bot;
 
-    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, float depth, boolean bassboost, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, boolean bassboost, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
         try

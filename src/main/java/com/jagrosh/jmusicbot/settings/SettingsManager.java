@@ -16,6 +16,7 @@
 package com.jagrosh.jmusicbot.settings;
 
 import com.jagrosh.jdautilities.command.GuildSettingsManager;
+import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.utils.OtherUtil;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
 public class SettingsManager implements GuildSettingsManager
 {
     private final HashMap<Long,Settings> settings;
+    private Bot bot;
 
     public SettingsManager()
     {
@@ -45,8 +47,8 @@ public class SettingsManager implements GuildSettingsManager
                         o.has("voice_channel_id")? o.getString("voice_channel_id"): null,
                         o.has("dj_role_id")      ? o.getString("dj_role_id")      : null,
                         o.has("volume")          ? o.getInt("volume")             : 100,
-                        o.has("depth")          ? o.getFloat("depth")             : 1.0f,
                         o.has("bassboost") && o.getBoolean("bassboost"),
+                        o.has("depth")          ? o.getFloat("depth")             : 1.0f,
                         o.has("speed")          ? o.getDouble("speed")             : 1,
                         o.has("default_playlist")? o.getString("default_playlist"): null,
                         o.has("repeat")          ? o.getEnum(RepeatMode.class, "repeat") : RepeatMode.OFF,

@@ -15,8 +15,6 @@
  */
 package com.jagrosh.jmusicbot.audio;
 
-import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
-import com.github.natanbc.lavadsp.tremolo.TremoloPcmAudioFilter;
 import com.jagrosh.jmusicbot.Bot;
 import com.sedmelluq.discord.lavaplayer.natives.ConnectorNativeLibLoader;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
@@ -35,7 +33,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -93,14 +92,6 @@ public class PlayerManager extends DefaultAudioPlayerManager
             AudioPlayer player = createPlayer();
             player.setVolume(bot.getSettingsManager().getSettings(guild).getVolume());
             handler = new AudioHandler(this, guild, player);
-            player.setFilterFactory((track, format, output)->{
-                TimescalePcmAudioFilter TimeScale = new TimescalePcmAudioFilter(output, format.channelCount, format.sampleRate);
-                TremoloPcmAudioFilter TremoloFilter = new TremoloPcmAudioFilter(output, format.channelCount, format.sampleRate);
-
-                TimeScale.setSpeed(bot.getSettingsManager().getSettings(guild).getSpeed());
-                TremoloFilter.setDepth(bot.getSettingsManager().getSettings(guild).getDepth());
-                return Collections.singletonList(TimeScale);
-            });
             player.addListener(handler);
             guild.getAudioManager().setSendingHandler(handler);
         }
@@ -109,3 +100,4 @@ public class PlayerManager extends DefaultAudioPlayerManager
         return handler;
     }
 }
+

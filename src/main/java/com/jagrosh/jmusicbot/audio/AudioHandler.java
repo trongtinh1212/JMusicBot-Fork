@@ -15,17 +15,22 @@
  */
 package com.jagrosh.jmusicbot.audio;
 
+import com.github.natanbc.lavadsp.karaoke.KaraokePcmAudioFilter;
 import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.JMusicBot;
 import com.jagrosh.jmusicbot.playlist.PlaylistLoader.Playlist;
 import com.jagrosh.jmusicbot.settings.RepeatMode;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.filter.equalizer.EqualizerFactory;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import com.sedmelluq.discord.lavaplayer.filter.AudioFilter;
+import com.sedmelluq.discord.lavaplayer.filter.FloatPcmAudioFilter;
+import com.sedmelluq.discord.lavaplayer.filter.UniversalPcmAudioFilter;
+import com.sedmelluq.discord.lavaplayer.filter.equalizer.Equalizer;
+import com.sedmelluq.discord.lavaplayer.format.AudioDataFormat;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 
 import java.util.*;
 
@@ -48,16 +53,18 @@ import net.dv8tion.jda.api.entities.User;
  */
 public class AudioHandler extends AudioEventAdapter implements AudioSendHandler 
 {
+    private final Settings settings;
     private Bot bot;
     private final FairQueue<QueuedTrack> queue = new FairQueue<>();
     private final List<AudioTrack> defaultQueue = new LinkedList<>();
     private final Set<String> votes = new HashSet<>();
     private final PlayerManager manager;
     private final AudioPlayer audioPlayer;
-    private final EqualizerFactory equalizer;
     private final long guildId;
     private AudioFrame lastFrame;
     private AudioTrack previous;
+    private boolean shouldRebuild;
+    private List<AudioFilter> lastChain;
 
     private static final float[] BASS_BOOST = {
             0.2f, 0.15f, 0.1f, 0.05f, 0.0f, -0.05f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f, -0.1f
@@ -66,9 +73,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     protected AudioHandler(PlayerManager manager, Guild guild, AudioPlayer player)
     {
         this.manager = manager;
+        this.bot = bot;
         this.audioPlayer = player;
         this.guildId = guild.getIdLong();
-        this.equalizer = new EqualizerFactory();
+        this.settings = manager.getBot().getSettingsManager().getSettings(guildId);
     }
 
     public int addTrackToFront(QueuedTrack qtrack)
@@ -132,30 +140,21 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     }
 
     public void setSpeed(Guild guild, double speed) {
-        Settings settings = manager.getBot().getSettingsManager().getSettings(guildId);
         settings.setSpeed(speed);
+        updateFilters(getPlayingTrack());
     }
     public void setDepth(Guild guild, float depth) {
-        Settings settings = manager.getBot().getSettingsManager().getSettings(guildId);
         settings.setDepth(depth);
+        updateFilters(getPlayingTrack());
     }
 
     public void enableBassboost(boolean state) {
-        if(state) {
-            getPlayer().setFilterFactory(equalizer);
-            for (int i = 0; i < BASS_BOOST.length; i++) {
-                equalizer.setGain(i, BASS_BOOST[i] + 2);
-            }
+        settings.setBassboost(state);
+        updateFilters(getPlayingTrack());
+    }
 
-            for (int i = 0; i < BASS_BOOST.length; i++) {
-                equalizer.setGain(i, -BASS_BOOST[i] + 1);
-            }
-            bot.getSettingsManager().getSettings(guildId).setBassboost(true);
-        } else {
-            getPlayer().setFilterFactory(null);
-            bot.getSettingsManager().getSettings(guildId).setBassboost(false);
-        }
-
+    public AudioTrack getPlayingTrack() {
+        return getPlayer().getPlayingTrack();
     }
 
     public AudioTrack getPreviousTrack() {
@@ -163,7 +162,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     }
 
     public boolean getBassboostState() {
-        return  bot.getSettingsManager().getSettings(guildId).getBassBoost();
+        return settings.getBassBoost();
     }
 
     public boolean playFromDefault()
@@ -364,5 +363,58 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private Guild guild(JDA jda)
     {
         return jda.getGuildById(guildId);
+    }
+
+    // equalizer
+    private List<AudioFilter> getFiltersOrRebuild(AudioTrack audioTrack, AudioDataFormat audioDataFormat, UniversalPcmAudioFilter downstream) {
+        if (shouldRebuild) {
+            lastChain = buildChain(audioTrack, audioDataFormat, downstream);
+            shouldRebuild = false;
+        }
+
+        return lastChain;
+    }
+
+    public boolean FiltersEnabled() {
+        return settings.getBassBoost();
+    }
+
+    public void updateFilters(AudioTrack track) {
+        if (FiltersEnabled()) {
+            shouldRebuild = true;
+            audioPlayer.setFilterFactory(this::getFiltersOrRebuild);
+        } else {
+            audioPlayer.setFilterFactory(null);
+        }
+    }
+
+    private List<AudioFilter> buildChain(AudioTrack audioTrack, AudioDataFormat format, UniversalPcmAudioFilter downstream) {
+        List<AudioFilter> filterList = new ArrayList<>();
+        FloatPcmAudioFilter filter = downstream;
+        Equalizer equalizer = new Equalizer(format.channelCount, filter);
+        TimescalePcmAudioFilter timescale = new TimescalePcmAudioFilter(filter, format.channelCount, format.sampleRate);
+        KaraokePcmAudioFilter karaokeFilter = new KaraokePcmAudioFilter(filter, format.channelCount, format.sampleRate);
+
+        // bassboost
+        if(settings.getBassBoost()) {
+            for (int i = 0; i < BASS_BOOST.length; i++) {
+                equalizer.setGain(i, BASS_BOOST[i] + 2);
+            }
+
+            for (int i = 0; i < BASS_BOOST.length; i++) {
+                equalizer.setGain(i, -BASS_BOOST[i] + 1);
+            }
+            filter = equalizer;
+            filterList.add(equalizer);
+            settings.setBassboost(true);
+        } else {
+            filter = null;
+            filterList.remove(equalizer);
+            settings.setBassboost(false);
+        }
+
+
+        Collections.reverse(filterList);
+        return filterList;
     }
 }
