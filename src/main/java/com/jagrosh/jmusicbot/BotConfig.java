@@ -58,6 +58,8 @@ public class BotConfig
     private boolean updatealerts;
     private boolean useEval;
     private int maxvolume;
+    private String depth;
+    private String speed;
     private long owner, maxSeconds, aloneTimeUntilStop;
     private OnlineStatus status;
     private Activity game;
@@ -116,8 +118,9 @@ public class BotConfig
             enableLoadBalancing = config.getBoolean("loadbalancing");
             loadbalancers = config.getString("loadbalancers");
             maxvolume = config.getInt("maxvolume");
+            depth = config.getString("depth");
+            speed = config.getString("speed");
 
-            
             // we may need to write a new config file
             boolean write = false;
 
@@ -231,6 +234,10 @@ public class BotConfig
     }
 
     public int getMaxVolume() { return maxvolume; }
+
+    public String getDepth() { return depth; }
+
+    public String getSpeed() { return speed; }
 
     public String getSuccess()
     {
