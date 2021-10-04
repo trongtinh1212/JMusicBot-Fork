@@ -7,6 +7,7 @@
 [![Release](https://img.shields.io/github/release/d1m0s23/JMusicBot-Fork)](https://github.com/jagrosh/MusicBot/releases/latest)
 [![License](https://img.shields.io/github/license/d1m0s23/JMusicBot-Fork)](https://github.com/d1m0s23/JMusicBot-Fork/blob/main/LICENSE)
 [![Build status](https://ci.appveyor.com/api/projects/status/gunxknn1bdw7i96k/branch/main?svg=true)](https://ci.appveyor.com/project/d1m0s23/jmusicbot-fork/branch/main)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/d1m0s23/JMusicBot-Fork/tree/main)
 
 A cross-platform Discord music bot with a clean interface, and that is easy to set up and run yourself!
 
