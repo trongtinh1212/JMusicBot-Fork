@@ -8,11 +8,9 @@
   "env": {
     "TOKEN": {
       "description": "Discord bot application token.",
-      "generator": "secret"
     },
     "OWNER": {
       "description": "Discord id of the bot owner.",
-      "generator": "secret"
     }
   }
 }
