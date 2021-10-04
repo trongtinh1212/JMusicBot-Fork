@@ -60,5 +60,5 @@ JMusicBot-Fork supports all sources and formats supported by [lavaplayer](https:
   
 
 ## Setup
-Please see the [Setup Page](https://github.com/jagrosh/MusicBot/wiki/Setup) in the wiki to run this bot yourself!
+Please see the [Setup Page](https://github.com/d1m0s23/JMusicBot-Fork/wiki/Setup) in the wiki to run this bot yourself!
 
