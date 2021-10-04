@@ -22,6 +22,7 @@ A cross-platform Discord music bot with a clean interface, and that is easy to s
  * Add many equalizer methods
  * Add queue repeat
  * Add discord buttons, easy control music!
+ * Can set max track volume in bot config
 
 ## Features
   * Easy to run (just make sure Java is installed, and run!)

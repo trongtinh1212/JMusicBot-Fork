@@ -408,6 +408,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             filterList.add(equalizer);
             settings.setBassboost(true);
         } else {
+            timescale.close();
             filter = null;
             filterList.remove(equalizer);
             settings.setBassboost(false);
