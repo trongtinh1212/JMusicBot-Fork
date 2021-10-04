@@ -43,10 +43,11 @@ public class Settings implements GuildSettingsProvider
     private String defaultPlaylist;
     private RepeatMode repeatMode;
     private double speed;
+    private double skipRatio;
     private String prefix;
     private Bot bot;
 
-    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, boolean bassboost, boolean karaoke, boolean nightcore, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, boolean bassboost, boolean karaoke, boolean nightcore, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix, double skipRatio)
     {
         this.manager = manager;
         try
@@ -82,9 +83,10 @@ public class Settings implements GuildSettingsProvider
         this.defaultPlaylist = defaultPlaylist;
         this.repeatMode = repeatMode;
         this.prefix = prefix;
+        this.skipRatio = skipRatio;
     }
     
-    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, boolean bassboost, boolean karaoke, boolean nightcore, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, boolean bassboost, boolean karaoke, boolean nightcore, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix, double skipRatio)
     {
         this.manager = manager;
         this.textId = textId;
@@ -99,6 +101,7 @@ public class Settings implements GuildSettingsProvider
         this.defaultPlaylist = defaultPlaylist;
         this.repeatMode = repeatMode;
         this.prefix = prefix;
+        this.skipRatio = skipRatio;
     }
     
     // Getters
@@ -145,6 +148,11 @@ public class Settings implements GuildSettingsProvider
     public String getPrefix()
     {
         return prefix;
+    }
+
+    public double getSkipRatio()
+    {
+        return skipRatio;
     }
 
     @Override
@@ -218,6 +226,12 @@ public class Settings implements GuildSettingsProvider
 
     public void setSpeed(double speed) {
         this.speed = speed;
+        this.manager.writeSettings();
+    }
+
+    public void setSkipRatio(double skipRatio)
+    {
+        this.skipRatio = skipRatio;
         this.manager.writeSettings();
     }
 }

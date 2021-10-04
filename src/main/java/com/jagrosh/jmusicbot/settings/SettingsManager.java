@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 public class SettingsManager implements GuildSettingsManager
 {
     private final HashMap<Long,Settings> settings;
+    private final static double SKIP_RATIO = .55;
     private Bot bot;
 
     public SettingsManager()
@@ -54,7 +55,8 @@ public class SettingsManager implements GuildSettingsManager
                         o.has("speed")          ? o.getDouble("speed")             : 1,
                         o.has("default_playlist")? o.getString("default_playlist"): null,
                         o.has("repeat")          ? o.getEnum(RepeatMode.class, "repeat") : RepeatMode.OFF,
-                        o.has("prefix")          ? o.getString("prefix")          : null));
+                        o.has("prefix")          ? o.getString("prefix")          : null,
+                        o.has("skip_ratio")      ? o.getDouble("skip_ratio")                 : SKIP_RATIO));
             });
         } catch(IOException | JSONException e) {
             LoggerFactory.getLogger("Settings").warn("Failed to load server settings (this is normal if no settings have been set yet): "+e);
@@ -80,7 +82,7 @@ public class SettingsManager implements GuildSettingsManager
     
     private Settings createDefaultSettings()
     {
-        return new Settings(this, 0, 0, 0, 100, false, false, false, 1.0f, 1, null, RepeatMode.OFF, null);
+        return new Settings(this, 0, 0, 0, 100, false, false, false, 1.0f, 1, null, RepeatMode.OFF, null, SKIP_RATIO);
     }
     
     protected void writeSettings()
