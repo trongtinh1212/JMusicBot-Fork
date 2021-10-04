@@ -29,11 +29,6 @@ public class DepthCmd extends DJCommand {
             } if(Float.parseFloat(event.getArgs()) <= 0) {
                 event.replyError("Cannot set depth smaller than 0");
             } else {
-                long lenght = handler.getPlayer().getPlayingTrack().getPosition();
-                handler.setDepth(event.getGuild(), Float.parseFloat(event.getArgs()));
-                handler.getQueue().add(new QueuedTrack(handler.getPlayer().getPlayingTrack().makeClone(), handler.getPlayer().getPlayingTrack().getUserData(Long.class) == null ? 0L : handler.getPlayer().getPlayingTrack().getUserData(Long.class)));
-                handler.getPlayer().stopTrack();
-                handler.getPlayer().getPlayingTrack().setPosition(lenght);
                 event.replySuccess("Depth now: " + "`" + event.getArgs() + "`");
             }
         } else {

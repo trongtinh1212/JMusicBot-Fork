@@ -17,10 +17,13 @@ package com.jagrosh.jmusicbot.audio;
 
 import com.github.natanbc.lavadsp.karaoke.KaraokePcmAudioFilter;
 import com.github.natanbc.lavadsp.timescale.TimescalePcmAudioFilter;
+import com.github.natanbc.lavadsp.tremolo.TremoloPcmAudioFilter;
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.JMusicBot;
 import com.jagrosh.jmusicbot.playlist.PlaylistLoader.Playlist;
 import com.jagrosh.jmusicbot.settings.RepeatMode;
+import com.sedmelluq.discord.lavaplayer.filter.ResamplingPcmAudioFilter;
+import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
@@ -46,6 +49,7 @@ import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -63,6 +67,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private final long guildId;
     private AudioFrame lastFrame;
     private AudioTrack previous;
+    private AudioConfiguration configuration;
     private boolean shouldRebuild;
     private List<AudioFilter> lastChain;
 
@@ -153,6 +158,11 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         updateFilters(getPlayingTrack());
     }
 
+    public void enableKaraoke(boolean state) {
+        settings.setKaraoke(state);
+        updateFilters(getPlayingTrack());
+    }
+
     public AudioTrack getPlayingTrack() {
         return getPlayer().getPlayingTrack();
     }
@@ -236,6 +246,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) 
     {
+        updateFilters(track);
         votes.clear();
         manager.getBot().getNowplayingHandler().onTrackUpdate(guildId, track, this);
     }
@@ -376,7 +387,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     }
 
     public boolean FiltersEnabled() {
-        return settings.getBassBoost();
+        return settings.getBassBoost() || settings.getKaraoke() || settings.getSpeed() != 1 || settings.getDepth() != 1;
     }
 
     public void updateFilters(AudioTrack track) {
@@ -394,6 +405,9 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         Equalizer equalizer = new Equalizer(format.channelCount, filter);
         TimescalePcmAudioFilter timescale = new TimescalePcmAudioFilter(filter, format.channelCount, format.sampleRate);
         KaraokePcmAudioFilter karaokeFilter = new KaraokePcmAudioFilter(filter, format.channelCount, format.sampleRate);
+        TremoloPcmAudioFilter tremolo = new TremoloPcmAudioFilter(filter, format.channelCount, format.sampleRate);
+        ResamplingPcmAudioFilter resamplingFilter = new ResamplingPcmAudioFilter(configuration, format.channelCount, filter, format.sampleRate, (int) (format.sampleRate / 1.0f));
+
 
         // bassboost
         if(settings.getBassBoost()) {
@@ -408,14 +422,61 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             filterList.add(equalizer);
             settings.setBassboost(true);
         } else {
-            timescale.close();
+            try {
+                equalizer.flush();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             filter = null;
             filterList.remove(equalizer);
             settings.setBassboost(false);
         }
 
+        if(settings.getSpeed() != timescale.getSpeed()) {
+            timescale.setSpeed(settings.getSpeed());
+            filter = timescale;
+            filterList.add(timescale);
+        } else if(settings.getSpeed() == 1) {
+            timescale.flush();
+        }
+
+//        if(settings.getDepth() != tremolo.getDepth()) {
+//            tremolo.setDepth(settings.getDepth());
+//            filter = tremolo;
+//            filterList.add(tremolo);
+//        }
+        if(settings.getKaraoke()) {
+            if(!manager.getBot().getConfig().getKaraokeBand().equals("NONE") && !manager.getBot().getConfig().getKaraokeLvl().equals("NONE") && !manager.getBot().getConfig().getKaraokeMono().equals("NONE") && !manager.getBot().getConfig().getKaraokeWidth().equals("NONE")) {
+                karaokeFilter.setLevel(Float.parseFloat(manager.getBot().getConfig().getKaraokeLvl()))
+                        .setMonoLevel(Float.parseFloat(manager.getBot().getConfig().getKaraokeMono()))
+                        .setFilterBand(Float.parseFloat(manager.getBot().getConfig().getKaraokeBand()))
+                        .setFilterWidth(Float.parseFloat(manager.getBot().getConfig().getKaraokeWidth()));
+                filter = karaokeFilter;
+                filterList.add(karaokeFilter);
+                settings.setKaraoke(true);
+            } else {
+                karaokeFilter.setLevel(1f)
+                        .setMonoLevel(1f)
+                        .setFilterBand(220f)
+                        .setFilterWidth(100f);
+                filter = karaokeFilter;
+                filterList.add(karaokeFilter);
+                settings.setKaraoke(true);
+            }
+        } else {
+            filter = null;
+            filterList.remove(karaokeFilter);
+            settings.setKaraoke(false);
+        }
+
+        if(settings.getNightcore()) {
+            filter = resamplingFilter;
+            filterList.add(resamplingFilter);
+            settings.setNightcore(true);
+        }
 
         Collections.reverse(filterList);
         return filterList;
     }
+
 }
