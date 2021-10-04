@@ -1,0 +1,17 @@
+{
+  "name": "JMusicBot-Fork",
+  "description": "Music bot with many features",
+  "repository": "https://github.com/d1m0s23/JMusicBot-Fork",
+  "keywords": [
+    "java", "jda", "discord", "discord bot", "discord music bot", "music discord"
+  ],
+  "env": {
+    "TOKEN": {
+      "description": "Discord bot application token.",
+      "generator": "secret"
+    },
+    "OWNER": {
+      "description": "Discord id of the bot owner."
+    }
+  }
+}
