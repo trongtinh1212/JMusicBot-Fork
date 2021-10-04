@@ -1,11 +1,11 @@
 <img align="right" src="https://i.imgur.com/zrE80HY.png" height="200" width="200">
 
-# JMusicBot *(forked by d1m0s23)*
+# JMusicBot-Fork *(by d1m0s23)*
 
 [![Downloads](https://img.shields.io/github/downloads/jagrosh/MusicBot/total.svg)](https://github.com/jagrosh/MusicBot/releases/latest)
 [![Stars](https://img.shields.io/github/stars/d1m0s23/JMusicBot-Fork)](https://github.com/d1m0s23/JMusicBot-Fork/stargazers)
 [![Release](https://img.shields.io/github/release/jagrosh/MusicBot.svg)](https://github.com/jagrosh/MusicBot/releases/latest)
-[![License](https://img.shields.io/github/license/d1m0s23/JMusicBotFork)](https://github.com/d1m0s23/JMusicBot-Fork/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/d1m0s23/JMusicBot-Fork)](https://github.com/d1m0s23/JMusicBot-Fork/blob/main/LICENSE)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/gdu6nyte5psj6xfk/branch/master?svg=true)](https://ci.appveyor.com/project/jagrosh/musicbot/branch/master)
 
 A cross-platform Discord music bot with a clean interface, and that is easy to set up and run yourself!
@@ -37,7 +37,7 @@ A cross-platform Discord music bot with a clean interface, and that is easy to s
   * Playlist support (both web/youtube, and local)
 
 ## Supported sources and formats
-JMusicBot supports all sources and formats supported by [lavaplayer](https://github.com/sedmelluq/lavaplayer#supported-formats):
+JMusicBot-Fork supports all sources and formats supported by [lavaplayer](https://github.com/sedmelluq/lavaplayer#supported-formats):
 
 ### Sources
   * YouTube
