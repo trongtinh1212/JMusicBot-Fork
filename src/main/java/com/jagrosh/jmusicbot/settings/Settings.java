@@ -33,7 +33,9 @@ public class Settings implements GuildSettingsProvider
 {
     private final SettingsManager manager;
     private float depth;
-    private  boolean bassboost;
+    private boolean bassboost;
+    private boolean karaoke;
+    private boolean nightcore;
     protected long textId;
     protected long voiceId;
     protected long roleId;
@@ -44,7 +46,7 @@ public class Settings implements GuildSettingsProvider
     private String prefix;
     private Bot bot;
 
-    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, boolean bassboost, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, boolean bassboost, boolean karaoke, boolean nightcore, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
         try
@@ -73,6 +75,8 @@ public class Settings implements GuildSettingsProvider
         }
         this.volume = volume;
         this.bassboost = bassboost;
+        this.karaoke = karaoke;
+        this.nightcore = nightcore;
         this.speed = speed;
         this.depth = depth;
         this.defaultPlaylist = defaultPlaylist;
@@ -80,7 +84,7 @@ public class Settings implements GuildSettingsProvider
         this.prefix = prefix;
     }
     
-    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, boolean bassboost, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
+    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, boolean bassboost, boolean karaoke, boolean nightcore, float depth, double speed, String defaultPlaylist, RepeatMode repeatMode, String prefix)
     {
         this.manager = manager;
         this.textId = textId;
@@ -88,6 +92,8 @@ public class Settings implements GuildSettingsProvider
         this.roleId = roleId;
         this.volume = volume;
         this.bassboost = bassboost;
+        this.karaoke = karaoke;
+        this.nightcore = nightcore;
         this.depth = depth;
         this.speed = speed;
         this.defaultPlaylist = defaultPlaylist;
@@ -117,6 +123,10 @@ public class Settings implements GuildSettingsProvider
     }
 
     public boolean getBassBoost() { return bassboost; }
+
+    public boolean getKaraoke() { return karaoke; }
+
+    public boolean getNightcore() { return nightcore; }
 
     public float getDepth() { return depth; }
 
@@ -170,10 +180,22 @@ public class Settings implements GuildSettingsProvider
 
     public void setDepth(float d) {
         this.depth = d;
+        this.manager.writeSettings();
     }
 
     public void setBassboost(boolean b) {
         this.bassboost = b;
+        this.manager.writeSettings();
+    }
+
+    public void setNightcore(boolean b) {
+        this.nightcore = b;
+        this.manager.writeSettings();
+    }
+
+    public void setKaraoke(boolean b) {
+        this.karaoke = b;
+        this.manager.writeSettings();
     }
 
     public void setDefaultPlaylist(String defaultPlaylist)
@@ -196,5 +218,6 @@ public class Settings implements GuildSettingsProvider
 
     public void setSpeed(double speed) {
         this.speed = speed;
+        this.manager.writeSettings();
     }
 }

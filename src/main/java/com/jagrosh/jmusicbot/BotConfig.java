@@ -59,6 +59,7 @@ public class BotConfig
     private boolean useEval;
     private int maxvolume;
     private String depth;
+    private String karaokeLvl, karaokeMono, karaokeWidth, karaokeBand;
     private String speed;
     private long owner, maxSeconds, aloneTimeUntilStop;
     private OnlineStatus status;
@@ -120,6 +121,10 @@ public class BotConfig
             maxvolume = config.getInt("maxvolume");
             depth = config.getString("depth");
             speed = config.getString("speed");
+            karaokeBand = config.getString("karaokeband");
+            karaokeMono = config.getString("karaokemono");
+            karaokeWidth = config.getString("karaokewidth");
+            karaokeLvl = config.getString("karaokelvl");
 
             // we may need to write a new config file
             boolean write = false;
@@ -227,7 +232,15 @@ public class BotConfig
     {
         return token;
     }
-    
+
+    public String getKaraokeLvl() { return karaokeLvl; }
+
+    public String getKaraokeMono() { return karaokeMono; }
+
+    public String getKaraokeWidth() { return karaokeWidth; }
+
+    public String getKaraokeBand() { return karaokeBand; }
+
     public long getOwnerId()
     {
         return owner;

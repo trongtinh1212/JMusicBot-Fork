@@ -48,6 +48,8 @@ public class SettingsManager implements GuildSettingsManager
                         o.has("dj_role_id")      ? o.getString("dj_role_id")      : null,
                         o.has("volume")          ? o.getInt("volume")             : 100,
                         o.has("bassboost") && o.getBoolean("bassboost"),
+                        o.has("karaoke") && o.getBoolean("karaoke"),
+                        o.has("nightcore") && o.getBoolean("nightcore"),
                         o.has("depth")          ? o.getFloat("depth")             : 1.0f,
                         o.has("speed")          ? o.getDouble("speed")             : 1,
                         o.has("default_playlist")? o.getString("default_playlist"): null,
@@ -78,7 +80,7 @@ public class SettingsManager implements GuildSettingsManager
     
     private Settings createDefaultSettings()
     {
-        return new Settings(this, 0, 0, 0, 100, false, 1.0f, 1, null, RepeatMode.OFF, null);
+        return new Settings(this, 0, 0, 0, 100, false, false, false, 1.0f, 1, null, RepeatMode.OFF, null);
     }
     
     protected void writeSettings()
@@ -95,6 +97,14 @@ public class SettingsManager implements GuildSettingsManager
                 o.put("dj_role_id", Long.toString(s.roleId));
             if(s.getVolume()!=100)
                 o.put("volume",s.getVolume());
+            if(!s.getBassBoost())
+                o.put("bassboost", s.getBassBoost());
+            if(!s.getKaraoke())
+                o.put("karaoke", s.getKaraoke());
+            if(!s.getNightcore())
+                o.put("nightcore", s.getNightcore());
+            if(s.getDepth() != 1)
+                o.put("depth", s.getDepth());
             if(s.getSpeed() != 1)
                 o.put("speed", s.getSpeed());
             if(s.getDefaultPlaylist() != null)

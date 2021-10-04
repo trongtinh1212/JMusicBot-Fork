@@ -4,13 +4,14 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.audio.AudioHandler;
 import com.jagrosh.jmusicbot.commands.DJCommand;
+import com.jagrosh.jmusicbot.settings.Settings;
 
-public class BassBoostCmd extends DJCommand {
+public class KaraokeCmd extends DJCommand {
 
-    public BassBoostCmd(Bot bot) {
+    public KaraokeCmd(Bot bot) {
         super(bot);
-        this.name = "bassboost";
-        this.help = "bassboost current track";
+        this.name = "karaoke";
+        this.help = "apply karaoke filter to the current track";
         this.aliases = bot.getConfig().getAliases(this.name);
         this.beListening = false;
         this.bePlaying = true;
@@ -19,13 +20,14 @@ public class BassBoostCmd extends DJCommand {
     @Override
     public void doCommand(CommandEvent event) {
         AudioHandler handler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
+        Settings settings = bot.getSettingsManager().getSettings(event.getGuild());
 
-        if(!handler.getBassboostState()) {
-            handler.enableBassboost(true);
-            event.replySuccess("Enabled `bassboost`!");
+        if(!settings.getKaraoke()) {
+            handler.enableKaraoke(true);
+            event.replySuccess("Enabled `karaoke`!");
         } else {
-            handler.enableBassboost(false);
-            event.replySuccess("Disabled `bassboost`!");
+            handler.enableKaraoke(false);
+            event.replySuccess("Disabled `karaoke`!");
         }
 
     }
