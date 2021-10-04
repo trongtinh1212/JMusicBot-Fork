@@ -13,7 +13,7 @@ A cross-platform Discord music bot with a clean interface, and that is easy to s
 
 ****
 
-**[SetupPage](https://github.com/jagrosh/MusicBot/wiki/Setup)** :clipboard:
+# :clipboard: **[**SetupPage**](https://github.com/jagrosh/MusicBot/wiki/Setup)** 
 
 ## Fork features
  * Update depends in pom.xml
