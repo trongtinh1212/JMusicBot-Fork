@@ -127,6 +127,7 @@ public class JMusicBot
                         new VolumeCmd(bot),
                         new BassBoostCmd(bot),
                         new KaraokeCmd(bot),
+//                        new NightCoreCmd(bot),
                         new DisconnectCmd(bot),
                         new ConnectCmd(bot),
 

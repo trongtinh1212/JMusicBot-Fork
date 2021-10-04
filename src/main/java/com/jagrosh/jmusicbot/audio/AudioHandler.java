@@ -387,7 +387,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     }
 
     public boolean FiltersEnabled() {
-        return settings.getBassBoost() || settings.getKaraoke() || settings.getSpeed() != 1 || settings.getDepth() != 1;
+        return settings.getBassBoost() || settings.getKaraoke() || settings.getNightcore() || settings.getSpeed() != 1 || settings.getDepth() != 1;
     }
 
     public void updateFilters(AudioTrack track) {
@@ -406,7 +406,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         TimescalePcmAudioFilter timescale = new TimescalePcmAudioFilter(filter, format.channelCount, format.sampleRate);
         KaraokePcmAudioFilter karaokeFilter = new KaraokePcmAudioFilter(filter, format.channelCount, format.sampleRate);
         TremoloPcmAudioFilter tremolo = new TremoloPcmAudioFilter(filter, format.channelCount, format.sampleRate);
-        ResamplingPcmAudioFilter resamplingFilter = new ResamplingPcmAudioFilter(configuration, format.channelCount, filter, format.sampleRate, (int) (format.sampleRate / 1.0f));
+        ResamplingPcmAudioFilter resamplingFilter = new ResamplingPcmAudioFilter(configuration, format.channelCount, filter, format.sampleRate, (int) (format.sampleRate / 3.0f));
 
 
         // bassboost
@@ -469,11 +469,15 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             settings.setKaraoke(false);
         }
 
-        if(settings.getNightcore()) {
-            filter = resamplingFilter;
-            filterList.add(resamplingFilter);
-            settings.setNightcore(true);
-        }
+//        if(settings.getNightcore()) {
+//            filter = resamplingFilter;
+//            filterList.add(resamplingFilter);
+//            settings.setNightcore(true);
+//        } else {
+//            filter = null;
+//            filterList.remove(resamplingFilter);
+//            settings.setNightcore(false);
+//        }
 
         Collections.reverse(filterList);
         return filterList;

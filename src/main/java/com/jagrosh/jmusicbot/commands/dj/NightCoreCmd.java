@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.audio.AudioHandler;
 import com.jagrosh.jmusicbot.commands.DJCommand;
+import com.jagrosh.jmusicbot.settings.Settings;
 
 public class NightCoreCmd extends DJCommand {
     public NightCoreCmd(Bot bot) {
@@ -18,13 +19,14 @@ public class NightCoreCmd extends DJCommand {
     @Override
     public void doCommand(CommandEvent event) {
         AudioHandler handler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
+        Settings settings = bot.getSettingsManager().getSettings(event.getGuild());
 
-        if(!handler.getBassboostState()) {
-            handler.enableBassboost(true);
-            event.replySuccess("Enabled `bassboost`!");
+        if(!settings.getNightcore()) {
+            settings.setNightcore(true);
+            event.replySuccess("Enabled `nightcore`!");
         } else {
-            handler.enableBassboost(false);
-            event.replySuccess("Disabled `bassboost`!");
+            settings.setNightcore(false);
+            event.replySuccess("Disabled `nightcore`!");
         }
 
     }
