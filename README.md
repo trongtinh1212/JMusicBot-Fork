@@ -5,7 +5,7 @@
 [![Downloads](https://img.shields.io/github/downloads/jagrosh/MusicBot/total.svg)](https://github.com/jagrosh/MusicBot/releases/latest)
 [![Stars](https://img.shields.io/github/stars/d1m0s23/JMusicBot-Fork)](https://github.com/d1m0s23/JMusicBot-Fork/stargazers)
 [![Release](https://img.shields.io/github/release/jagrosh/MusicBot.svg)](https://github.com/jagrosh/MusicBot/releases/latest)
-[![License](https://img.shields.io/github/license/d1m0s23/JMusicBotFork)](https://github.com/d1m0s23/JMusicBot-Fork/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/d1m0s23/JMusicBot-Fork)](https://github.com/d1m0s23/JMusicBot-Fork/blob/main/LICENSE)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/gdu6nyte5psj6xfk/branch/master?svg=true)](https://ci.appveyor.com/project/jagrosh/musicbot/branch/master)
 
 A cross-platform Discord music bot with a clean interface, and that is easy to set up and run yourself!
