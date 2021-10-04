@@ -7,7 +7,7 @@
   ],
   "env": {
     "TOKEN": {
-      "description": "Discord bot application token.",
+      "description": "Discord bot application token."
     },
     "OWNER": {
       "description": "Discord id of the bot owner."
