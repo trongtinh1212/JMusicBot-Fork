@@ -11,7 +11,9 @@
 
 A cross-platform Discord music bot with a clean interface, and that is easy to set up and run yourself!
 
-[comment]: <> ([![Setup]&#40;http://i.imgur.com/VvXYp5j.png&#41;]&#40;https://github.com/jagrosh/MusicBot/wiki/Setup&#41;)
+****
+
+**[SetupPage](https://github.com/jagrosh/MusicBot/wiki/Setup)** :clipboard:
 
 ## Fork features
  * Update depends in pom.xml
