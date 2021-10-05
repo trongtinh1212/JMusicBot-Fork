@@ -406,7 +406,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         TimescalePcmAudioFilter timescale = new TimescalePcmAudioFilter(filter, format.channelCount, format.sampleRate);
         KaraokePcmAudioFilter karaokeFilter = new KaraokePcmAudioFilter(filter, format.channelCount, format.sampleRate);
         TremoloPcmAudioFilter tremolo = new TremoloPcmAudioFilter(filter, format.channelCount, format.sampleRate);
-        ResamplingPcmAudioFilter resamplingFilter = new ResamplingPcmAudioFilter(configuration, format.channelCount, filter, format.sampleRate, (int) (format.sampleRate / 3.0f));
 
 
         // bassboost
@@ -440,11 +439,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             timescale.flush();
         }
 
-//        if(settings.getDepth() != tremolo.getDepth()) {
-//            tremolo.setDepth(settings.getDepth());
-//            filter = tremolo;
-//            filterList.add(tremolo);
-//        }
         if(settings.getKaraoke()) {
             if(!manager.getBot().getConfig().getKaraokeBand().equals("NONE") && !manager.getBot().getConfig().getKaraokeLvl().equals("NONE") && !manager.getBot().getConfig().getKaraokeMono().equals("NONE") && !manager.getBot().getConfig().getKaraokeWidth().equals("NONE")) {
                 karaokeFilter.setLevel(Float.parseFloat(manager.getBot().getConfig().getKaraokeLvl()))
@@ -468,16 +462,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             filterList.remove(karaokeFilter);
             settings.setKaraoke(false);
         }
-
-//        if(settings.getNightcore()) {
-//            filter = resamplingFilter;
-//            filterList.add(resamplingFilter);
-//            settings.setNightcore(true);
-//        } else {
-//            filter = null;
-//            filterList.remove(resamplingFilter);
-//            settings.setNightcore(false);
-//        }
 
         Collections.reverse(filterList);
         return filterList;
