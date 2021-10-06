@@ -19,7 +19,7 @@ public class InteractionListener extends ListenerAdapter {
         int volume = bot.getSettingsManager().getSettings(event.getGuild().getIdLong()).getVolume();
 
         if(handler.getPlayer().getPlayingTrack() == null) {
-           event.getInteraction().reply("te niggers").queue();
+           event.getInteraction().reply("No track playing").queue();
         } else {
             switch (event.getComponentId()) {
                 case "play:volume_minus":
