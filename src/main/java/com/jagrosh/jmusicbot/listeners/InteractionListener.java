@@ -24,13 +24,13 @@ public class InteractionListener extends ListenerAdapter {
             switch (event.getComponentId()) {
                 case "play:volume_minus":
                     bot.getSettingsManager().getSettings(event.getGuild().getIdLong()).setVolume(volume -= 10);
-                    handler.getPlayer().setVolume(volume -= 10);
-                    event.reply("Volume -10").queue();
+                    handler.getPlayer().setVolume(volume -=  10);
+                    event.reply("Volume now: " + "`" +  handler.getPlayer().getVolume() + "`").queue();
                     break;
                 case "play:volume_plus":
                     bot.getSettingsManager().getSettings(event.getGuild().getIdLong()).setVolume(volume += 10);
                     handler.getPlayer().setVolume(volume += 10);
-                    event.reply("Volume +10").queue();
+                    event.reply("Volume now: " +  "`" +  handler.getPlayer().getVolume() + "`").queue();
                     break;
                 case "play:stop":
                     handler.getPlayer().stopTrack();
