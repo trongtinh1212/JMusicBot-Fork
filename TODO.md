@@ -10,6 +10,5 @@
 - Remove range cmd
 - Save personal queue
 - Add lang file
-- Execute commands only in specified channel
-~~- Add many equalizer methods~~
-- Create nightcore, remove range in queue
+- ~~Add many equalizer methods~~
+- load specified track if 24/7 and if queue empty
