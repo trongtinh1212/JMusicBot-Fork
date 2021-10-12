@@ -82,7 +82,7 @@ public class JMusicBot
         Bot bot = new Bot(waiter, config, settings);
         
         AboutCommand aboutCommand = new AboutCommand(Color.BLUE.brighter(),
-                                "a music bot that is [source code](https://github.com/d1m0s23/JMusicBotFork) (v"+version+")",
+                                "a music bot that is [source code](https://github.com/d1m0s23/JMusicBot-Fork) (v"+version+")",
                                 new String[]{"High-quality music playback", "FairQueue™ Technology", "Easy to host yourself"},
                                 RECOMMENDED_PERMS);
         aboutCommand.setIsAuthor(false);
